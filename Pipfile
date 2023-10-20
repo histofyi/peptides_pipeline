@@ -12,6 +12,7 @@ logomaker = "*"
 rich = "*"
 gitpython = "*"
 dparse = "*"
+openpyxl = "*"
 
 [dev-packages]
 
