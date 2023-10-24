@@ -8,6 +8,8 @@ def download_mhcmotifatlas():
     """
     datasource_key = 'mhcmotifatlas'
 
+    print ('Downloading data from MHC Motif Atlas...')
+
     output, success, errors = functions.process_datasource(datasource_key)
 
     if success:
