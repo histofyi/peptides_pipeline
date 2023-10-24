@@ -1,16 +1,16 @@
 
 import json
 
-with open('outputs/iedb/alleles.json') as f:
+with open('output/iedb/alleles.json') as f:
     iedb_alleles = json.load(f)
 
-with open('outputs/netmhcpan/alleles.json') as f:
+with open('output/netmhcpan/alleles.json') as f:
     netmhcpan_alleles = json.load(f)
 
-with open('outputs/immunopeptidomics_paper/alleles.json') as f:
+with open('output/immunopeptidomics_paper/alleles.json') as f:
     immunopeptidomics_alleles = json.load(f)
 
-with open('outputs/mhcmotifatlas/alleles.json') as f:
+with open('output/mhcmotifatlas/alleles.json') as f:
     mhcmotifatlas_alleles = json.load(f)
 
 other_set = mhcmotifatlas_alleles

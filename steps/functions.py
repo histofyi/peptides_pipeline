@@ -18,9 +18,9 @@ def save_progress(alleles:Dict, peptides:Dict, dataset:str):
     Returns:
         None
     """
-    with open(f"outputs/{dataset}/alleles.json", "w") as f:
+    with open(f"output/{dataset}/alleles.json", "w") as f:
         f.write(json.dumps(alleles, indent=4))
-    with open(f"outputs/{dataset}/peptides.json", "w") as f:
+    with open(f"output/{dataset}/peptides.json", "w") as f:
         f.write(json.dumps(peptides, indent=4))
     pass
 
@@ -55,10 +55,23 @@ def load_datasource_metadata(datasource_key:str) -> Dict:
         Dict: A dictionary of the datasource metadata.
     """
     # Loads the metadata concerning the datasource, e.g. the URL, filename, etc.
-    with open("datasources.json", "r") as f:
-        datasources = json.load(f)
+    datasources = load_datasources_metadata()
     # Returns the metadata for the specific datasource
     return datasources[datasource_key]
+
+
+def load_datasources_metadata() -> Dict:
+    """
+    This function loads the metadata for all datasources.
+
+    Returns:
+        Dict: A dictionary of the datasource metadata.
+    """
+    # Loads the metadata concerning the datasource, e.g. the URL, filename, etc.
+    with open("input/datasources.json", "r") as f:
+        datasources = json.load(f)
+    return datasources
+
 
 
 def download_datasource(datasource:Dict):

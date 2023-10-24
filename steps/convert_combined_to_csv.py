@@ -5,7 +5,7 @@ import pandas as pd
 print ("Starting up...")
 
 print ("Loading combined dataset...")
-with open('outputs/combined/alleles.json') as f:
+with open('output/combined/alleles.json') as f:
     alleles = json.load(f)
 
 
@@ -53,6 +53,6 @@ print (f"Number of rows: {len(dataframe)}")
 
 print ("Writing combined dataset to CSV...")
 df = pd.DataFrame(dataframe)
-df.to_csv('outputs/combined/peptides.csv', index=False, header=fields)
+df.to_csv('output/combined/peptides.csv', index=False, header=fields)
 
 
