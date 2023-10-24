@@ -1,7 +1,7 @@
 import pandas as pd 
 
 from rich.progress import Progress
-from functions import save_progress
+from functions import save_progress, process_allele_and_peptide
 
 
 excel_file = "data/immunopeptidomics_paper/41587_2019_322_MOESM3_ESM.xlsx"
@@ -29,20 +29,7 @@ for sheet in sheets:
 
         for peptide in allele_peptides:
 
-            if peptide not in peptides:
-                peptides[peptide] = []
-            peptides[peptide].append(allele_slug)
-            
-            peptide_length = len(peptide)
-            if peptide_length not in alleles[allele_slug]['peptide_lengths']:
-                alleles[allele_slug]['peptide_lengths'][peptide_length] = {
-                    'peptides': [],
-                    'count': 0
-                }
-            if peptide not in alleles[allele_slug]['peptide_lengths'][peptide_length]['peptides']:
-                alleles[allele_slug]['peptide_lengths'][peptide_length]['peptides'].append(peptide)
-                alleles[allele_slug]['peptide_lengths'][peptide_length]['count'] += 1
-                alleles[allele_slug]['count'] += 1
+            alleles, peptides = process_allele_and_peptide(allele_slug, peptide, alleles, peptides)
 
             progress.update(task, advance=1)
         
