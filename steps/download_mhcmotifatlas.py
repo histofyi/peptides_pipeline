@@ -1,7 +1,7 @@
 import functions
 
 
-def download_mhcmotifatlas():
+def download_mhcmotifatlas(**kwargs):
     """
     This function downloads the MHC Motif Atlas from the Gfeller Lab.
     
@@ -20,6 +20,11 @@ def download_mhcmotifatlas():
     else:
         print(errors)
 
+    return {
+        'output': output,
+        'success': success,
+        'errors': errors
+    }
 
 if __name__ == "__main__":
     download_mhcmotifatlas()

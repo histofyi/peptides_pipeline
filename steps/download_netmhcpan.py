@@ -2,7 +2,7 @@ import functions
 import os
 
 
-def download_netmhcpan():
+def download_netmhcpan(**kwargs):
     """
     This function downloads the NetMHCpan data dump from the Nielsen Lab.
     """
@@ -43,6 +43,12 @@ def download_netmhcpan():
             print(output['message'])
     else:
         print(errors)
+
+    return {
+        'output': output,
+        'success': success,
+        'errors': errors
+    }
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ import os
 
 
 
-def download_iedb():
+def download_iedb(**kwargs):
     """
     This function downloads the MHC peptide epitope data dump from the IEDB.
 
@@ -11,9 +11,9 @@ def download_iedb():
 
     datasource_key = 'iedb'
 
-    output, success, errors = functions.process_datasource(datasource_key)
-
     datasource_metadata = functions.load_datasource_metadata(datasource_key)
+
+    output, success, errors = functions.process_datasource(datasource_key)
 
     if success:
         if output['changed']:
@@ -33,6 +33,12 @@ def download_iedb():
     else:
         # if it has failed, output the errors
         print(errors)
+
+    return {
+        'output': output,
+        'success': success,
+        'errors': errors
+    }
 
 
 if __name__ == "__main__":
