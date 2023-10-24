@@ -2,19 +2,17 @@
     "mhcmotifatlas":{
         "folder": "data/mhcmotifatlas",
         "url": "http://mhcmotifatlas.org/data/classI/MS/Peptides/all_peptides.txt",
-        "filename": "data.txt",
-        "compression": null
+        "filename": "data.txt"
     },
     "netmhcpan":{
         "folder": "data/netmhcpan",
         "url": "https://services.healthtech.dtu.dk/suppl/immunology/NAR_NetMHCpan_NetMHCIIpan/NetMHCpan_train.tar.gz",
         "filename": "data.tar.gz",
-        "compression": ["gz", "tar"]
+        "extraction_folder": "NetMHCpan_train"
     },
     "iedb":{
         "folder": "data/iedb",
         "url": "https://www.iedb.org/downloader.php?file_name=doc/mhc_ligand_full_multi_file.zip",
-        "filename": "data.zip",
-        "compression": ["zip"]
+        "filename": "data.zip"
     }
 }
