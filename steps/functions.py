@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Union, List, Tuple
 
 import json
 import os
@@ -7,6 +7,17 @@ import datetime
 
 
 def save_progress(alleles:Dict, peptides:Dict, dataset:str):
+    """
+    This function saves the progress of the pipeline to a JSON file.
+
+    Args:
+        alleles (Dict): A dictionary of alleles.
+        peptides (Dict): A dictionary of peptides.
+        dataset (str): The name of the dataset.
+
+    Returns:
+        None
+    """
     with open(f"outputs/{dataset}/alleles.json", "w") as f:
         f.write(json.dumps(alleles, indent=4))
     with open(f"outputs/{dataset}/peptides.json", "w") as f:
@@ -14,28 +25,39 @@ def save_progress(alleles:Dict, peptides:Dict, dataset:str):
     pass
 
 
-def process_datasource(datasource_key:str):
+def process_datasource(datasource_key:str) -> Union[Dict, bool, List]:
+    """
+    This function processes a datasource. e.g. the IEDB datasource.
+
+    Args:
+        datasource_key (str): The key of the datasource.
+
+    Returns:
+        Union[Dict, bool, List]: A tuple containing the output, success and errors.
+    """
+    # Loads the metadata concerning the datasource, e.g. the URL, filename, etc.
     datasource_metadata = load_datasource_metadata(datasource_key)
 
+    # Fetches the data for the datasource and saves it to a file if it has changed
     output, success, errors = download_datasource(datasource_metadata)
-
-    if success:
-        if output['changed']:
-            print ('Changed')
-            print (datasource_metadata['compression'])
-            print(output['message'])
-        else:
-            print ('Unchanged')
-            print(output['message'])
-    else:
-        print(errors)
-
+    
     return output, success, errors
 
 
-def load_datasource_metadata(datasource_key:str):
+def load_datasource_metadata(datasource_key:str) -> Dict:
+    """
+    This function loads the metadata for a specific datasource e.g. iedb for the IEDB datasource.
+    
+    Args:
+        datasource_key (str): The key of the datasource.
+    
+    Returns:
+        Dict: A dictionary of the datasource metadata.
+    """
+    # Loads the metadata concerning the datasource, e.g. the URL, filename, etc.
     with open("datasources.json", "r") as f:
         datasources = json.load(f)
+    # Returns the metadata for the specific datasource
     return datasources[datasource_key]
 
 
@@ -115,5 +137,48 @@ def fetch_url(url:str, filename:str):
     return output, success, errors
 
 
-def decompress(filename:str, output:str, decompression_type:str):
-    pass
+def process_allele_and_peptide(allele_slug:str, peptide:str, alleles:Dict, peptides:Dict) -> Union[Dict, Dict]:
+    """
+    This function processes information on the combination of an allele and peptide into consistent dictionaries
+
+    Args:
+        allele_slug (str): The slug of the allele.
+        peptide (str): The peptide.
+        alleles (Dict): A dictionary of alleles.
+        peptides (Dict): A dictionary of peptides.
+
+    Returns:
+        Union[Dict, Dict]: A tuple containing the alleles and peptides dictionaries.
+    """
+    # If the peptide is not in the peptides dictionary, add it
+    if peptide not in peptides:
+        peptides[peptide] = []
+    # If the allele is not in the peptides dictionary, add it
+    if allele_slug not in peptides[peptide]:
+        peptides[peptide].append(allele_slug)
+    
+    # Next get the length of the peptide
+    peptide_length = len(peptide)
+
+    # If the slugified allele number is not in the alleles dictionary, add it
+    if allele_slug not in alleles:
+        alleles[allele_slug] = {
+            'peptide_lengths': {},
+            'count': 0
+    }
+
+    # If the peptide length is not in the alleles dictionary, add it
+    if peptide_length not in alleles[allele_slug]['peptide_lengths']:
+        alleles[allele_slug]['peptide_lengths'][peptide_length] = {
+            'peptides': [],
+            'count': 0
+        }
+    # Finally if the peptide is not in the alleles dictionary in the specific peptide length/allele slug combination, add it
+    if peptide not in alleles[allele_slug]['peptide_lengths'][peptide_length]['peptides']:
+        alleles[allele_slug]['peptide_lengths'][peptide_length]['peptides'].append(peptide)
+        # and increment the counts
+        alleles[allele_slug]['peptide_lengths'][peptide_length]['count'] += 1
+        alleles[allele_slug]['count'] += 1
+
+    # Return the updated dictionaries
+    return alleles, peptides
