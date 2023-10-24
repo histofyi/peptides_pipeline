@@ -1,6 +1,7 @@
 import functions
 import os
 
+
 def download_netmhcpan():
     """
     This function downloads the NetMHCpan data dump from the Nielsen Lab.
@@ -42,3 +43,7 @@ def download_netmhcpan():
             print(output['message'])
     else:
         print(errors)
+
+
+if __name__ == "__main__":
+    download_netmhcpan()
