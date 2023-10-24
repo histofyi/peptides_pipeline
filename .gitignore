@@ -169,3 +169,6 @@ data/
 
 # Output directory
 outputs/
+
+# Log directory
+log/
