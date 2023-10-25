@@ -27,10 +27,13 @@ def download_iedb(**kwargs):
 
             # unzip the downloaded file into the data folder
             os.system(f"unzip {folder}/{filename} -d {folder}/data")
-            
+            functions.save_status(datasource_key, 'changed')
+        else:
+            functions.save_status(datasource_key, 'unchanged')
         # output the message from the download step    
         print(output['message'])
     else:
+        functions.save_status(datasource_key, 'errors')
         # if it has failed, output the errors
         print(errors)
 

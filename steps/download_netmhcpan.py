@@ -37,11 +37,13 @@ def download_netmhcpan(**kwargs):
             print ('Moving directory contents to data folder')
             # move the extracted files to the data folder
             os.system(f"mv {folder}/{extraction_folder} {folder}/data")
-            
-            print(output['message'])
+            functions.save_status(datasource_key, 'changed')
         else:
-            print(output['message'])
+            functions.save_status(datasource_key, 'unchanged')
+        print(output['message'])
     else:
+        # if it has failed, output the errors
+        functions.save_status(datasource_key, 'errors')
         print(errors)
 
     return {

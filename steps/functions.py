@@ -39,6 +39,45 @@ def datasource_filename(filecontents:str, datasource:str) -> str:
     return f"output/{datasource}/{filecontents}.json"
 
 
+def save_status(datasource:str, status:str):
+    """
+    This function saves the status of the different datasources to a JSON file.
+
+    Statuses are:
+        - changed: the datasource has changed and needs to be processed
+        - unchanged: the datasource has not changed and does not need to be processed
+        - errors: the datasource has errors and needs to be checked
+        - processed: the datasource has been processed
+
+    Args:
+        datasource (str): The name of the datasource.
+        status (str): The status of the datasource.
+
+    """
+    status_filename = 'output/status.json'
+    # if the status file is not there, create it
+    if not os.path.exists(status_filename):
+        os.system(f"touch {status_filename}")
+        statuses = {}
+    else:
+        # if it is there, try to load the current json in the file
+        try:
+            with open(status_filename, 'r') as f:
+                statuses = json.load(f)
+        except:
+            statuses = {}
+    # update the status for the datasource
+    statuses[datasource] = {
+        'status':status,
+        'updated_at': datetime.datetime.now().isoformat()
+    }
+    # then write the statuses out to the file
+    with open(status_filename, 'w') as f:
+        f.write(json.dumps(statuses, indent=4))
+    pass
+
+
+
 def save_progress(alleles:Dict, peptides:Dict, datasource:str):
     """
     This function saves the progress of the pipeline to a JSON file.

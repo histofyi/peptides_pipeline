@@ -13,13 +13,16 @@ def download_mhcmotifatlas(**kwargs):
     output, success, errors = functions.process_datasource(datasource_key)
 
     if success:
-        if output['changed']:                
-            print(output['message'])
+        if output['changed']:      
+            functions.save_status(datasource_key, 'changed')        
         else:
-            print(output['message'])
+            functions.save_status(datasource_key, 'unchanged')
+        print(output['message'])
     else:
+        # if it has failed, output the errors
+        functions.save_status(datasource_key, 'errors')
         print(errors)
-
+        
     return {
         'output': output,
         'success': success,
