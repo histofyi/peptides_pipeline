@@ -169,14 +169,15 @@ data/
 processed_data/
 
 # Output directory
-outputs/
+output/
 
 # Log directory
 log/
+
+# Temporary directory
+tmp/
 
 # Paths and secrets config
 paths.toml
 secrets.toml
 
-# Status file for the pipeline
-output/status.json
