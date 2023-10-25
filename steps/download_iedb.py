@@ -18,12 +18,13 @@ def download_iedb(**kwargs):
     if success:
         if output['changed']:
             # set variables
-            folder = datasource_metadata['folder']
+            folder = datasource_metadata['tmp_folder']
             filename = datasource_metadata['filename']
 
             print ('Unzipping and extracting')
             # remove the data folder if it exists (this will be stale data)
-            os.system(f"rm -r {folder}/data")
+            if os.path.exists(f"{folder}/data"):
+                os.system(f"rm -r {folder}/data")
 
             # unzip the downloaded file into the data folder
             os.system(f"unzip {folder}/{filename} -d {folder}/data")

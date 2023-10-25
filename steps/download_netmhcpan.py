@@ -17,7 +17,7 @@ def download_netmhcpan(**kwargs):
     if success:
         if output['changed']:
             # set variables
-            folder = datasource_metadata['folder']
+            folder = datasource_metadata['tmp_folder']
             filename = datasource_metadata['filename']
             extraction_folder = datasource_metadata['extraction_folder']
             unzipped = f"{datasource_metadata['filename'].replace('.gz','')}"
