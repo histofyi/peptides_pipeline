@@ -6,21 +6,54 @@ import requests
 import datetime
 
 
-def save_progress(alleles:Dict, peptides:Dict, dataset:str):
+def check_for_processing(datasource:str, datehash:str) -> bool:
+    """
+    This function checks if a datasource needs to be processed. 
+    It does this by:
+        - checking if the output files already exist 
+        - checking in the log for the pipeline if the download was successful and has changed
+
+    Args:
+        datasource (str): The name of the datasource.
+
+    """
+
+    to_process = []
+    for filecontents in ['alleles', 'peptides']:
+        filename = datasource_filename(filecontents, datasource)
+        if os.path.exists(filename):
+            to_process.append(False)
+    if not datehash:
+        to_process.append(True)
+    #else:
+        # check in the log
+    to_process_set = set(to_process)
+    if to_process_set == 1:
+        return to_process_set[0]
+    else:
+        return False
+
+
+
+def datasource_filename(filecontents:str, datasource:str) -> str:
+    return f"output/{datasource}/{filecontents}.json"
+
+
+def save_progress(alleles:Dict, peptides:Dict, datasource:str):
     """
     This function saves the progress of the pipeline to a JSON file.
 
     Args:
         alleles (Dict): A dictionary of alleles.
         peptides (Dict): A dictionary of peptides.
-        dataset (str): The name of the dataset.
+        datasource (str): The name of the datasource.
 
     Returns:
         None
     """
-    with open(f"output/{dataset}/alleles.json", "w") as f:
+    with open(datasource_filename('alleles', datasource), "w") as f:
         f.write(json.dumps(alleles, indent=4))
-    with open(f"output/{dataset}/peptides.json", "w") as f:
+    with open(datasource_filename('peptides', datasource), "w") as f:
         f.write(json.dumps(peptides, indent=4))
     pass
 
@@ -148,6 +181,9 @@ def fetch_url(url:str, filename:str):
         else:
             errors.append(f"Failed to download {url} to {filename}")
     return output, success, errors
+
+
+
 
 
 def process_allele_and_peptide(allele_slug:str, peptide:str, alleles:Dict, peptides:Dict) -> Union[Dict, Dict]:
