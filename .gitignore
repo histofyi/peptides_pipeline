@@ -166,6 +166,7 @@ cython_debug/
 
 #Data directory
 data/
+processed_data/
 
 # Output directory
 outputs/
