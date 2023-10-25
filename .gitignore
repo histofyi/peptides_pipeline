@@ -176,3 +176,6 @@ log/
 # Paths and secrets config
 paths.toml
 secrets.toml
+
+# Status file for the pipeline
+output/status.json
