@@ -5,6 +5,8 @@ from download_netmhcpan import download_netmhcpan
 from download_mhcmotifatlas import download_mhcmotifatlas
 from download_iedb import download_iedb
 
+from process_mhcmotifatlas import process_mhcmotifatlas
+
 steps = {
     '1':{
         'function':create_folder_structure,
@@ -42,4 +44,13 @@ steps = {
         'multi_options': None,
         'has_progress': True
     },
+    '5':{
+        'function':process_mhcmotifatlas,
+        'title_template':'the MHC Motif Atlas dataset.',
+        'title_verb':['Processing','Processes'],
+        'is_multi': False,
+        'multi_param': None,
+        'multi_options': None,
+        'has_progress': True
+    }
 }
