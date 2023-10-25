@@ -5,8 +5,10 @@ import os
 import requests
 import datetime
 
+status_filename = 'tmp/status.json'
 
-def check_for_processing(datasource:str, datehash:str) -> bool:
+
+def check_for_processing(datasource:str) -> bool:
     """
     This function checks if a datasource needs to be processed. 
     It does this by:
@@ -17,26 +19,21 @@ def check_for_processing(datasource:str, datehash:str) -> bool:
         datasource (str): The name of the datasource.
 
     """
-
     to_process = []
-    for filecontents in ['alleles', 'peptides']:
-        filename = datasource_filename(filecontents, datasource)
-        if os.path.exists(filename):
-            to_process.append(False)
-    if not datehash:
-        to_process.append(True)
-    #else:
-        # check in the log
-    to_process_set = set(to_process)
-    if to_process_set == 1:
-        return to_process_set[0]
+    if load_status(datasource)['status'] == 'changed':
+        return True
     else:
-        return False
-
-
-
-def datasource_filename(filecontents:str, datasource:str) -> str:
-    return f"output/{datasource}/{filecontents}.json"
+        for filecontents in ['alleles', 'peptides']:
+            filename = datasource_filename(filecontents, datasource)
+            if os.path.exists(filename):
+                to_process.append(False)
+            else:
+                to_process.append(True)
+        to_process_set = list(set(to_process))
+        if len(to_process_set) == 1:
+            return to_process_set[0]
+        else:
+            return True
 
 
 def save_status(datasource:str, status:str):
@@ -54,7 +51,6 @@ def save_status(datasource:str, status:str):
         status (str): The status of the datasource.
 
     """
-    status_filename = 'output/status.json'
     # if the status file is not there, create it
     if not os.path.exists(status_filename):
         os.system(f"touch {status_filename}")
@@ -77,10 +73,37 @@ def save_status(datasource:str, status:str):
     pass
 
 
+def load_status(datasource:str) -> Dict:
+    """
+    This function loads the status of a specific datasource from the JSON file.
+
+    Args:
+        datasource (str): The name of the datasource.
+    
+    Returns:
+        Dict: A dictionary of the status of the datasource.
+    """
+    default_status = {'status':'unknown', 'updated_at':None}
+    if os.path.exists(status_filename):
+        with open(status_filename, 'r') as f:
+            statuses = json.load(f)
+        if datasource in statuses:
+            return statuses[datasource]
+        else:
+            return default_status
+    else:
+        return default_status
+
+
+def datasource_filename(filecontents:str, datasource:str) -> str:
+    return f"output/processed_data/{datasource}/{filecontents}.json"
+
 
 def save_progress(alleles:Dict, peptides:Dict, datasource:str):
     """
     This function saves the progress of the pipeline to a JSON file.
+
+    It saves JSON data for peptides and alleles in a consistent format.
 
     Args:
         alleles (Dict): A dictionary of alleles.
@@ -118,9 +141,7 @@ def process_datasource(datasource_key:str) -> Union[Dict, bool, List]:
 
 def load_datasource_metadata(datasource_key:str) -> Dict:
     """
-    This function loads the metadata for a specific datasource e.g. iedb for the IEDB datasource.
-    
-    Args:
+    This function loads the metfolder
         datasource_key (str): The key of the datasource.
     
     Returns:
@@ -147,7 +168,7 @@ def load_datasources_metadata() -> Dict:
 
 
 def download_datasource(datasource:Dict):
-    folder = datasource['folder']
+    folder = datasource['tmp_folder']
     filename = datasource['filename']
     filname = f"{folder}/{filename}"
 
