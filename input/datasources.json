@@ -1,21 +1,27 @@
 {
     "mhcmotifatlas":{
-        "tmp_folder": "data/mhcmotifatlas",
+        "tmp_folder": "tmp/mhcmotifatlas",
         "processed_folder": "processed_data/mhcmotifatlas",
         "url": "http://mhcmotifatlas.org/data/classI/MS/Peptides/all_peptides.txt",
         "filename": "data.txt"
     },
     "netmhcpan":{
-        "tmp_folder": "data/netmhcpan",
+        "tmp_folder": "tmp/netmhcpan",
         "processed_folder": "processed_data/netmhcpan",
         "url": "https://services.healthtech.dtu.dk/suppl/immunology/NAR_NetMHCpan_NetMHCIIpan/NetMHCpan_train.tar.gz",
         "filename": "data.tar.gz",
         "extraction_folder": "NetMHCpan_train"
     },
     "iedb":{
-        "tmp_folder": "data/iedb",
+        "tmp_folder": "tmp/iedb",
         "processed_folder": "processed_data/iedb",
         "url": "https://www.iedb.org/downloader.php?file_name=doc/mhc_ligand_full_multi_file.zip",
+        "filename": "data.zip"
+    },
+    "cedar":{
+        "tmp_folder": "tmp/cedar",
+        "processed_folder": "processed_data/cedar",
+        "url": "https://cedar.iedb.org/downloader.php?file_name=doc/mhc_ligand_full_multi_file.zip",
         "filename": "data.zip"
     }
 }

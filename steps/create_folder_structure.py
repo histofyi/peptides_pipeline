@@ -30,10 +30,10 @@ def create_folder_structure(**kwargs) -> Dict:
 
     datasources = load_datasources_metadata()
     
-    folders = [datasources[datasource]['tmp_folder'] for datasource in datasources] + [datasources[datasource]['processed_folder'] for datasource in datasources]
+    folders = [datasources[datasource]['tmp_folder'] for datasource in datasources] + [f"{output_path}/{datasources[datasource]['processed_folder']}" for datasource in datasources]
  
     for folder in folders:
-        create_folder(f"{output_path}/{folder}", verbose)
+        create_folder(folder, verbose)
         i += 1
         
 
