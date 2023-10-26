@@ -1,5 +1,5 @@
 from rich.progress import Progress
-from functions import save_progress, load_datasource_metadata, process_allele_and_peptide, check_for_processing, load_datasource_metadata, save_status
+from functions import save_progress, load_datasource_metadata, process_allele_and_peptide, check_for_processing, save_status
 from helpers.text import slugify
 
 import os
