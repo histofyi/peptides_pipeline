@@ -73,6 +73,13 @@ def save_status(datasource:str, status:str):
     pass
 
 
+def load_statuses() -> Dict:
+    statuses = None
+    with open(status_filename, 'r') as f:
+        statuses = json.load(f)
+    return statuses
+
+
 def load_status(datasource:str) -> Dict:
     """
     This function loads the status of a specific datasource from the JSON file.
