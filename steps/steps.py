@@ -7,6 +7,12 @@ from download_cedar import download_cedar
 
 from process_mhcmotifatlas import process_mhcmotifatlas
 from process_netmhcpan import process_netmhcpan
+from process_iedb import process_iedb
+from process_cedar import process_cedar
+
+from combine_peptide_sets import combine_peptide_sets
+from convert_combined_to_csv import convert_combined_to_csv
+from convert_csv_to_sqlite import convert_csv_to_sqlite
 
 steps = {
     '1':{
@@ -67,6 +73,51 @@ steps = {
         'function':process_netmhcpan,
         'title_template':'the NetMHCPan training dataset.',
         'title_verb':['Processing','Processes'],
+        'is_multi': False,
+        'multi_param': None,
+        'multi_options': None,
+        'has_progress': True
+    },
+    '8':{
+        'function':process_iedb,
+        'title_template':'the IEDB epitope dataset.',
+        'title_verb':['Processing','Processes'],
+        'is_multi': False,
+        'multi_param': None,
+        'multi_options': None,
+        'has_progress': True
+    },
+    '9':{
+        'function':process_cedar,
+        'title_template':'the CEDAR cancer epitope dataset.',
+        'title_verb':['Processing','Processes'],
+        'is_multi': False,
+        'multi_param': None,
+        'multi_options': None,
+        'has_progress': True
+    },
+    '10':{
+        'function':combine_peptide_sets,
+        'title_template':'the peptide/allele datasets from the different datasources.',
+        'title_verb':['Combining','Combines'],
+        'is_multi': False,
+        'multi_param': None,
+        'multi_options': None,
+        'has_progress': True
+    },
+    '11':{
+        'function':convert_combined_to_csv,
+        'title_template':'the combined dataset to a CSV file.',
+        'title_verb':['Converting','converts'],
+        'is_multi': False,
+        'multi_param': None,
+        'multi_options': None,
+        'has_progress': True
+    },
+    '12':{
+        'function':convert_csv_to_sqlite,
+        'title_template':'the combined dataset to a sqlite file.',
+        'title_verb':['Converting','converts'],
         'is_multi': False,
         'multi_param': None,
         'multi_options': None,

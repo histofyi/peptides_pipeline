@@ -35,6 +35,9 @@ def create_folder_structure(**kwargs) -> Dict:
     for folder in folders:
         create_folder(folder, verbose)
         i += 1
+
+    create_folder(f"output/processed_data/combined", verbose)
+    i += 1
         
 
     action_output = {
