@@ -50,7 +50,7 @@ def process_iedb(**kwargs):
                         
                     progress.update(task, advance=1)
 
-            save_progress(alleles, peptides, 'iedb')
+            save_progress(alleles, peptides, datasource)
             i += 1
 
         print (f'Number of unique peptides: {len(peptides)}')
