@@ -16,6 +16,7 @@ openpyxl = "*"
 pip = "*"
 csv-to-sqlite = "*"
 datasette = "*"
+requests = "*"
 
 [dev-packages]
 
