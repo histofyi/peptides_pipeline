@@ -10,10 +10,10 @@ def run_pipeline(**kwargs) -> Dict:
     pipeline.load_steps(steps)
 
     pipeline.run_step('1') # create folder structure
-    #pipeline.run_step('2') # download mhcmotifatlas
-    #pipeline.run_step('3') # download netmhcpan
-    #pipeline.run_step('4') # download iedb
-    #pipeline.run_step('5') # download cedar
+    pipeline.run_step('2') # download mhcmotifatlas
+    pipeline.run_step('3') # download netmhcpan
+    pipeline.run_step('4') # download iedb
+    pipeline.run_step('5') # download cedar
     pipeline.run_step('6') # process mhcmotifatlas
     pipeline.run_step('7') # process netmhcpan
     pipeline.run_step('8') # process iedb
