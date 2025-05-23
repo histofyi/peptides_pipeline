@@ -106,7 +106,7 @@ def datasource_filename(filecontents:str, datasource:str) -> str:
     return f"output/processed_data/{datasource}/{filecontents}.json"
 
 
-def save_progress(alleles:Dict, peptides:Dict, datasource:str):
+def save_progress(alleles:Dict, peptides:Dict, datasource:str, mhc_class:str='class_i') -> None:
     """
     This function saves the progress of the pipeline to a JSON file.
 
@@ -116,13 +116,21 @@ def save_progress(alleles:Dict, peptides:Dict, datasource:str):
         alleles (Dict): A dictionary of alleles.
         peptides (Dict): A dictionary of peptides.
         datasource (str): The name of the datasource.
+        mhc_class (str): The MHC class of the alleles and peptides.
 
     Returns:
         None
     """
-    with open(datasource_filename('alleles', datasource), "w") as f:
+    if mhc_class == 'class_i':
+        alleles_name = 'alleles'
+        peptides_name = 'peptides'
+    elif mhc_class == 'class_ii':
+        alleles_name = 'class_ii_alleles'
+        peptides_name = 'class_ii_peptides'
+
+    with open(datasource_filename(alleles_name, datasource), "w") as f:
         f.write(json.dumps(alleles, indent=4))
-    with open(datasource_filename('peptides', datasource), "w") as f:
+    with open(datasource_filename(peptides_name, datasource), "w") as f:
         f.write(json.dumps(peptides, indent=4))
     pass
 
